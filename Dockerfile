@@ -1,14 +1,14 @@
-# Use the official n8n Docker image
+# Use official n8n image
 FROM n8nio/n8n:latest
 
-# Set the working directory
+# Set working directory
 WORKDIR /home/node
 
-# Expose the n8n default port (Render assigns automatically)
+# Expose n8n default port
 EXPOSE 5678
 
-# Environment variable for port (optional)
+# Environment variable (Render will override PORT automatically)
 ENV PORT=5678
 
-# Start n8n using full binary path
-CMD ["/usr/local/bin/n8n", "start"]
+# Use the image’s default entrypoint to start n8n
+ENTRYPOINT ["n8n"]
