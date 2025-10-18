@@ -19,8 +19,9 @@ COPY ./House-price.json /data/workflows/House-price.json
 # Environment variables for auto-import
 # ---------------------------------------
 ENV N8N_IMPORT_EXPORT_DIR=/data/workflows
-ENV N8N_IMPORT_EXPORT_MODE=import
 ENV N8N_IMPORT_EXPORT_OVERWRITE=true
+ENV N8N_AUTO_ACTIVATE_WORKFLOW=true
+ENV N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=false
 
 # Optional — helps n8n auto-activate workflows on start
 ENV N8N_AUTO_ACTIVATE_WORKFLOW=true
