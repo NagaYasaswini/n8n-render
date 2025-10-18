@@ -33,4 +33,4 @@ EXPOSE 5678
 # ---------------------------------------
 # Default command to start n8n
 # ---------------------------------------
-CMD ["n8n", "start"]
+CMD ["/usr/local/bin/n8n", "start"]
