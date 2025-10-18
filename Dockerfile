@@ -34,4 +34,4 @@ EXPOSE 5678
 # ---------------------------------------
 # Default command to start n8n
 # ---------------------------------------
-ENTRYPOINT ["n8n"]
+ENTRYPOINT ["/bin/sh", "-c", "n8n import:workflow --input=/data/workflows/House-price.json && n8n start"]
