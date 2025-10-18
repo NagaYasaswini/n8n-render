@@ -5,7 +5,7 @@ FROM n8nio/n8n:latest
 WORKDIR /data
 
 # ✅ Copy your workflow file into the container
-# COPY ./House-price.json /data/workflows/House-price.json
+COPY ./House-price.json /data/workflows/House-price.json
 
 # ✅ Environment variables for import and activation
 ENV N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=false
