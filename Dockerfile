@@ -16,4 +16,4 @@ ENV N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=false
 ENV N8N_IMPORT_SKIP_DEACTIVATION=true
 
 # ✅ Run import and activate before starting n8n
-ENTRYPOINT ["/bin/sh", "-c", "n8n import:workflow --input=/data/workflows/House-price.json && n8n start"]
+ENTRYPOINT ["n8n", "start"]
