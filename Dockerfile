@@ -5,15 +5,15 @@ FROM n8nio/n8n:latest
 WORKDIR /data
 
 # ✅ Copy your workflow file into the container
-COPY ./House-price.json /data/workflows/House-price.json
+# COPY ./House-price.json /data/workflows/House-price.json
 
 # ✅ Environment variables for import and activation
-ENV N8N_IMPORT_EXPORT_DIR=/data/workflows
-ENV N8N_IMPORT_EXPORT_MODE=import
-ENV N8N_IMPORT_EXPORT_OVERWRITE=true
-ENV N8N_AUTO_ACTIVATE_WORKFLOW=true
 ENV N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=false
-ENV N8N_IMPORT_SKIP_DEACTIVATION=true
+ENV N8N_METRICS=false
+ENV N8N_RUNNERS_ENABLED=true
+ENV N8N_BLOCK_ENV_ACCESS_IN_NODE=false
+ENV N8N_GIT_NODE_DISABLE_BARE_REPOS=true
+
 
 # ✅ Run import and activate before starting n8n
 ENTRYPOINT ["/bin/sh", "-c", "n8n import:workflow --input=/data/workflows/House-price.json && n8n start"]
