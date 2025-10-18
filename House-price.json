@@ -1,0 +1,184 @@
+{
+  "name": "House-price",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "house-price",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "264372aa-4cf2-4e95-8fab-29bd9a63bf57",
+      "name": "Webhook",
+      "webhookId": "ca9ed98c-a985-49ac-b503-12e1f49ee63b"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "97f75115-d253-4235-9a25-ec5f3b07528c",
+              "name": "prediction_text",
+              "value": "={{$node[\"HTTP Request\"].json[\"prediction\"]}}\n",
+              "type": "string"
+            },
+            {
+              "id": "e9a591a3-46e0-486a-a988-7aeeb6a3dfb9",
+              "name": "prediction_value",
+              "value": "={{$node[\"HTTP Request\"].json[\"Raw Value\"]}}\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        432,
+        0
+      ],
+      "id": "5ac41b41-d14d-468f-a32a-45bf4d81ccca",
+      "name": "Edit Fields",
+      "alwaysOutputData": false,
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"prediction\": $(\"HTTP Request\").item.json[\"Raw Value\"] } }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        656,
+        0
+      ],
+      "id": "45b46b5e-fb94-4e45-8150-758f6a24abaa",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://ai-house-price-automation-1.onrender.com/predict_api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "changeme123"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "MedInc",
+              "value": "={{$json [\"body\"] [\"features\"][0]}}"
+            },
+            {
+              "name": "HouseAge",
+              "value": "={{$json [\"body\"] [\"features\"][1]}}"
+            },
+            {
+              "name": "AveRooms",
+              "value": "={{$json [\"body\"] [\"features\"][2]}}"
+            },
+            {
+              "name": "AveBedrms",
+              "value": "={{$json [\"body\"] [\"features\"][3]}}"
+            },
+            {
+              "name": "Population",
+              "value": "={{$json [\"body\"] [\"features\"][4]}}"
+            },
+            {
+              "name": "AveOccup",
+              "value": "={{$json [\"body\"] [\"features\"][5]}}"
+            },
+            {
+              "name": "Latitude",
+              "value": "={{$json [\"body\"] [\"features\"][6]}}"
+            },
+            {
+              "name": "Longitude",
+              "value": "={{$json [\"body\"] [\"features\"][7]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "a6af5cac-c03e-477d-b1fa-5795d9ee399f",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": -1,
+    "availableInMCP": false
+  },
+  "versionId": "e8184459-c268-49a1-aaf6-0e46d045329b",
+  "meta": {
+    "instanceId": "75c2bae93897cb85352a2f649234995e546ce047608834a8e54433acd2f7b6b6"
+  },
+  "id": "rtN41Xe2aU3t89Fu",
+  "tags": []
+}

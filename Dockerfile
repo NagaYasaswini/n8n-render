@@ -1,14 +1,36 @@
-# Use official n8n image
+# ---------------------------------------
+# Use the official n8n image
+# ---------------------------------------
 FROM n8nio/n8n:latest
 
+# ---------------------------------------
 # Set working directory
-WORKDIR /home/node
+# ---------------------------------------
+WORKDIR /data
 
-# Expose n8n default port
+# ---------------------------------------
+# Copy your exported workflow into the container
+# Make sure the JSON file exists in your repo root
+# and is NOT ignored in .dockerignore
+# ---------------------------------------
+COPY ./House-price.json /data/workflows/House-price.json
+
+# ---------------------------------------
+# Environment variables for auto-import
+# ---------------------------------------
+ENV N8N_IMPORT_EXPORT_DIR=/data/workflows
+ENV N8N_IMPORT_EXPORT_MODE=import
+ENV N8N_IMPORT_EXPORT_OVERWRITE=true
+
+# Optional — helps n8n auto-activate workflows on start
+ENV N8N_AUTO_ACTIVATE_WORKFLOW=true
+
+# ---------------------------------------
+# Expose default n8n port (Render overrides automatically)
+# ---------------------------------------
 EXPOSE 5678
 
-# Environment variable (Render will override PORT automatically)
-ENV PORT=5678
-
-# Use the image’s default entrypoint to start n8n
-ENTRYPOINT ["n8n"]
+# ---------------------------------------
+# Default command to start n8n
+# ---------------------------------------
+CMD ["n8n", "start"]
